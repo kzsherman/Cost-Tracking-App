@@ -12,7 +12,7 @@ public class Group
 {
     private Long id;
     private String name;
-    private User user;
+    private Budget budget;
     private Set<Category> categories = new TreeSet<>();
 
     @Id @GeneratedValue
@@ -34,13 +34,13 @@ public class Group
     }
 
     @ManyToOne
-    public User getUser()
+    public Budget getBudget()
     {
-        return user;
+        return budget;
     }
-    public void setUser(User user)
+    public void setBudget(Budget budget)
     {
-        this.user = user;
+        this.budget = budget;
     }
 
     @OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY, mappedBy="group")
