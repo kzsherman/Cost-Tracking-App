@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import vip.almaty.costtrackingapp.domain.User;
 import vip.almaty.costtrackingapp.repositories.UserRepository;
 
+
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired

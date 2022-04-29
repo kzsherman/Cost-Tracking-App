@@ -10,37 +10,35 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Authority implements GrantedAuthority {
 
-    @Id
-    @GeneratedValue
+    private static final long serialVersionUID = 5919753070016527655L;
     private Long id;
-
     private String authority;
     private User user;
 
-
-    public Long getId() {
+    @Id @GeneratedValue
+    public Long getId()
+    {
         return id;
     }
-
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
-
-
-    public String getAuthority() {
+    public String getAuthority()
+    {
         return authority;
     }
-
-    public void setAuthority(String authority) {
+    public void setAuthority(String authority)
+    {
         this.authority = authority;
     }
-
     @ManyToOne
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
-
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 }
