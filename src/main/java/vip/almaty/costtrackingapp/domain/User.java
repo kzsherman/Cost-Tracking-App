@@ -9,7 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="users")
-public class User {
+
+public class User
+{
     private Long id;
     private String username;
     private String password;
@@ -19,54 +21,57 @@ public class User {
 
     @Id
     @GeneratedValue
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
-
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
-
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
-
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
-
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
-
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Budget> getBudgets() {
+    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="users")
+    public Set<Budget> getBudgets()
+    {
         return budgets;
     }
-
-    public void setBudgets(Set<Budget> budgets) {
+    public void setBudgets(Set<Budget> budgets)
+    {
         this.budgets = budgets;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    public Set<Authority> getAuthorities() {
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+    public Set<Authority> getAuthorities()
+    {
         return authorities;
     }
-
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities)
+    {
         this.authorities = authorities;
     }
-
-    @Transient //don't store in database
-    public String getConfirmPassword() {
+    @Transient
+    public String getConfirmPassword()
+    {
         return confirmPassword;
     }
-
-    public void setConfirmPassword(String confirmPassword) {
+    public void setConfirmPassword(String confirmPassword)
+    {
         this.confirmPassword = confirmPassword;
     }
 }
