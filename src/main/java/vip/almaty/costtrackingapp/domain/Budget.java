@@ -1,5 +1,8 @@
 package vip.almaty.costtrackingapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,6 +19,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Budget implements Comparable<Budget>
 {
     private Long id;

@@ -23,4 +23,8 @@ public class BudgetService {
         users.add(user);
         return budgetRepo.findByUsersIn(users);
     }
+
+    public Budget saveBudget (Budget budget) {
+        return budgetRepo.save(budget);
+    }
 }

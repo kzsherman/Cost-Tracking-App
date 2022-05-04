@@ -1,6 +1,9 @@
 package vip.almaty.costtrackingapp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -8,6 +11,7 @@ import java.util.TreeSet;
 import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name="users")
 
 public class User
