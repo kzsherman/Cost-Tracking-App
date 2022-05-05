@@ -1,6 +1,8 @@
 package vip.almaty.costtrackingapp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +10,7 @@ import java.util.TreeSet;
 
 @Entity
 @Table(name="groups")
-public class Group
+public class Group implements Comparable <Group>
 {
     private Long id;
     private String name;
@@ -44,6 +46,7 @@ public class Group
     }
 
     @OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY, mappedBy="group")
+    @JsonIgnore
     public Set<Category> getCategories()
     {
         return categories;
@@ -53,4 +56,14 @@ public class Group
         this.categories = categories;
     }
 
+    @Override
+    public int compareTo(Group o) {
+
+
+        int compareTo = 0;
+        if(this.getId() != null && o.getId() != null)
+        compareTo = o.getId().compareTo((o.getId()));
+
+        return compareTo;
+    }
 }

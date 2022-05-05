@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import vip.almaty.costtrackingapp.domain.Budget;
 import vip.almaty.costtrackingapp.domain.User;
 import vip.almaty.costtrackingapp.service.BudgetService;
@@ -25,14 +23,22 @@ public class BudgetController {
 
 
     @RequestMapping(value="", method=RequestMethod.GET)
-    public String getBudget(@AuthenticationPrincipal User user, ModelMap model)
+    public String getBudgets(@AuthenticationPrincipal User user, ModelMap model)
     {
-        getBudgets(user, model);
+        populateUserBudgetsOnModel(user, model);
         // this should fetch budgets from the database for the logged in user
         return "budgets";
     }
 
-    private void getBudgets(User user, ModelMap model) {
+    @GetMapping("{budgetId}")
+    public String getBudget (@PathVariable Long budgetId, ModelMap model){
+
+        Budget budget = budgetService.findOne(budgetId);
+        model.put("budget", budget);
+        return "budget";
+    }
+
+    private void populateUserBudgetsOnModel(User user, ModelMap model) {
         TreeSet<Budget> budgets = budgetService.getBudgets(user);
 
         model.put("budgets", budgets);
@@ -41,17 +47,11 @@ public class BudgetController {
     @RequestMapping (value = "", method = RequestMethod.POST)
     public @ResponseBody Budget postBudget(@AuthenticationPrincipal User user, ModelMap model){
 
-        Set<User> users = new HashSet<>();
-        Set<Budget> budgets = new HashSet<>();
-        users.add(user);
         Budget budget = new Budget();
-        budgets.add(budget);
-        budget.setName("New Budget");
-        budget.setUsers(users);
 
-        budgetService.saveBudget(budget);
+        budgetService.saveBudget(user, budget);
 
-        getBudgets(user, model);
+        populateUserBudgetsOnModel(user, model);
         return budget;
     }
 }

@@ -1,6 +1,7 @@
 package vip.almaty.costtrackingapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.HashSet;
@@ -46,6 +47,7 @@ public class Budget implements Comparable<Budget>
     }
     @ManyToMany
     @JoinTable(inverseJoinColumns=@JoinColumn(name="user_id"), joinColumns=@JoinColumn(name="budget_id"))
+    @JsonIgnore
     public Set<User> getUsers()
     {
         return users;
