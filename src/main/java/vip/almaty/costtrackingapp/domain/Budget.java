@@ -3,6 +3,7 @@ package vip.almaty.costtrackingapp.domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.core.annotation.Order;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -57,6 +58,8 @@ public class Budget implements Comparable<Budget>
         this.users = users;
     }
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="budget")
+    @JsonIgnore
+    @Order
     public Set<Group> getGroups()
     {
         return groups;

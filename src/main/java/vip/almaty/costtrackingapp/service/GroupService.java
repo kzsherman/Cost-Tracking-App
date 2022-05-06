@@ -1,4 +1,4 @@
-package vip.almaty.costtrackingapp.web;
+package vip.almaty.costtrackingapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,8 @@ import vip.almaty.costtrackingapp.domain.Budget;
 import vip.almaty.costtrackingapp.domain.Group;
 import vip.almaty.costtrackingapp.repositories.GroupRepository;
 import vip.almaty.costtrackingapp.service.BudgetService;
+
+import java.util.Optional;
 
 @Service
 public class GroupService
@@ -26,13 +28,18 @@ public class GroupService
         return save(group);
     }
 
-    private Group save(Group group)
+    public Group save(Group group)
     {
         return groupRepo.save(group);
     }
 
     public Group findOne(Long groupId)
     {
-        return groupRepo.findOne(groupId);
+      Optional<Group> groupOptional = groupRepo.findById(groupId);
+
+      Group group = groupOptional.get();
+
+      return group;
+
     }
 }

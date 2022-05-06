@@ -62,7 +62,7 @@ public class Group implements Comparable <Group>
 
         int compareTo = 0;
         if(this.getId() != null && o.getId() != null)
-        compareTo = o.getId().compareTo((o.getId()));
+        compareTo = this.getId().compareTo((o.getId()));
 
         return compareTo;
     }
