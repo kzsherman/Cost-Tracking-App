@@ -5,31 +5,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.core.annotation.Order;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 
 @Entity
-
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Budget implements Comparable<Budget>
 {
     private Long id;
     private String name;
     private Set<User> users = new HashSet<>();
-    private Set<Group> groups = new TreeSet<>();
+    private Date startDate;
+    private Date endDate;
+    private SortedSet<Group> groups = new TreeSet<>();
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     public Long getId()
     {
         return id;
@@ -47,7 +40,7 @@ public class Budget implements Comparable<Budget>
         this.name = name;
     }
     @ManyToMany
-    @JoinTable(inverseJoinColumns=@JoinColumn(name="user_id"), joinColumns=@JoinColumn(name="budget_id"))
+    @JoinTable(inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "budget_id"))
     @JsonIgnore
     public Set<User> getUsers()
     {
@@ -57,16 +50,32 @@ public class Budget implements Comparable<Budget>
     {
         this.users = users;
     }
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="budget")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
     @JsonIgnore
-    @Order
-    public Set<Group> getGroups()
+    @OrderBy
+    public SortedSet<Group> getGroups()
     {
         return groups;
     }
-    public void setGroups(Set<Group> groups)
+    public void setGroups(SortedSet<Group> groups)
     {
         this.groups = groups;
+    }
+    public Date getStartDate()
+    {
+        return startDate;
+    }
+    public void setStartDate(Date startDate)
+    {
+        this.startDate = startDate;
+    }
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
     }
 
     @Override
