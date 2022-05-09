@@ -9,6 +9,7 @@ import vip.almaty.costtrackingapp.domain.Budget;
 import vip.almaty.costtrackingapp.domain.User;
 import vip.almaty.costtrackingapp.service.BudgetService;
 
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -70,5 +71,17 @@ public class BudgetController {
 
         populateUserBudgetsOnModel(user, model);
         return budget;
+    }
+
+    @PutMapping("{budgetId}")
+    public @ResponseBody void putBudget(@AuthenticationPrincipal User user, @RequestParam String startDate,
+                                        @RequestParam String endDate, @PathVariable Long budgetId) throws ParseException
+    {
+        Budget budget = budgetService.findOne(budgetId);
+
+        budget.setStartDate(budgetService.convertStringToDate(startDate));
+        budget.setEndDate(budgetService.convertStringToDate(endDate));
+
+        budgetService.saveBudget(user, budget);
     }
 }

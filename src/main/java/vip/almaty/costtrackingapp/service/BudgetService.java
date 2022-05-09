@@ -1,5 +1,6 @@
 package vip.almaty.costtrackingapp.service;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -8,10 +9,9 @@ import vip.almaty.costtrackingapp.domain.Group;
 import vip.almaty.costtrackingapp.domain.User;
 import vip.almaty.costtrackingapp.repositories.BudgetRepository;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+
+import java.text.ParseException;
+import java.util.*;
 
 @Service
 public class BudgetService {
@@ -56,5 +56,10 @@ public class BudgetService {
 
         Budget budget = optionalBudget.get();
         return budget;
+    }
+
+    public Date convertStringToDate(String date) throws ParseException
+    {
+        return DateUtils.parseDate(date, "yyyy-MM-dd");
     }
 }
