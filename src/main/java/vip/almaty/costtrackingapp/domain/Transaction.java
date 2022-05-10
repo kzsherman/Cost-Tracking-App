@@ -1,19 +1,21 @@
 package vip.almaty.costtrackingapp.domain;
 
 import org.hibernate.annotations.GeneratorType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 public class Transaction
 {
     private Long id;
-    private Date date;
+    private LocalDate date;
     private BigDecimal total;
     private String type;
     private String note;
@@ -29,14 +31,16 @@ public class Transaction
     {
         this.id = id;
     }
-    public Date getDate()
-    {
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    public LocalDate getDate() {
         return date;
     }
-    public void setDate(Date date)
-    {
+
+    public void setDate(LocalDate date) {
         this.date = date;
     }
+
     public BigDecimal getTotal()
     {
         return total;
