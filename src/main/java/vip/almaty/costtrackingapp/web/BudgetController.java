@@ -30,10 +30,16 @@ public class BudgetController {
     }
 
     @GetMapping("{budgetId}")
-    public String getBudget (@PathVariable Long budgetId, ModelMap model){
-
+    public String getBudget(@PathVariable Long budgetId, ModelMap model)
+    {
         Budget budget = budgetService.findOne(budgetId);
+
+        boolean hasCategories = budget.getGroups().stream()
+                .filter(group -> group.getCategories().size() > 0)
+                .count() > 0;
         model.put("budget", budget);
+        model.put("hasCategories", hasCategories);
+
         return "budget";
     }
 
