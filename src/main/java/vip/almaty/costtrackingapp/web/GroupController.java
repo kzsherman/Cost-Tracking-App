@@ -10,7 +10,8 @@ import vip.almaty.costtrackingapp.service.GroupService;
 
 @Controller
 @RequestMapping("/budgets/{budgetId}/groups")
-public class GroupController {
+public class GroupController
+{
     @Autowired
     private GroupService groupService;
 
@@ -31,13 +32,13 @@ public class GroupController {
     }
 
     @PostMapping("{groupId}")
-    public String postGroup(@ModelAttribute Group group , @PathVariable Long budgetId, @PathVariable Long groupId, ModelMap model)
+    public String postGroup(@ModelAttribute Group group, @PathVariable Long groupId,
+                            @PathVariable Long budgetId, ModelMap model)
     {
+        Group groupFromDB = groupService.findOne(groupId);
+        groupFromDB.setName(group.getName());
+        groupFromDB = groupService.save(groupFromDB);
 
-        Group groupfromDB = groupService.findOne(groupId);
-        groupfromDB.setName(group.getName());
-        groupfromDB = groupService.save(groupfromDB);
-
-        return "redirect:/budgets/" + budgetId;
+        return "redirect:/budgets/"+budgetId;
     }
 }

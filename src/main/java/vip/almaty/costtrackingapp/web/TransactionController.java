@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import vip.almaty.costtrackingapp.domain.Budget;
 import vip.almaty.costtrackingapp.domain.Category;
 import vip.almaty.costtrackingapp.domain.Transaction;
+import vip.almaty.costtrackingapp.dto.CategoryDto;
 import vip.almaty.costtrackingapp.service.BudgetService;
 import vip.almaty.costtrackingapp.service.CategoryService;
 import vip.almaty.costtrackingapp.service.TransactionService;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value= {"/budgets/{budgetId}/groups/{groupId}/categories/{categoryId}/transactions",
@@ -38,6 +42,8 @@ public class TransactionController
         tx.setBudget(budget);
         budget.getTransactions().add(tx);
 
+        // old way = new Date();
+        // new way = LocalDate.now();  // or LocalDateTime.now();
         tx.setDate(LocalDate.now());
 
         if (categoryId != null)
@@ -58,7 +64,14 @@ public class TransactionController
         Transaction transaction = transactionService.findOne(transactionId);
         model.put("transaction", transaction);
         model.put("budget", transaction.getBudget());
+        List<CategoryDto> categories = transaction.getBudget().getGroups()
+                .stream()
+                .map(group -> group.getCategories())
+                .flatMap(Collection::stream)
+                .map(category -> new CategoryDto(category.getId().toString(), category.getName()))
+                .collect(Collectors.toList());
 
+        model.put("categories", categories);
         return "transaction";
     }
 
@@ -66,7 +79,8 @@ public class TransactionController
     public String postTransaction(@ModelAttribute Transaction transaction, @PathVariable Long transactionId)
     {
         transaction = transactionService.save(transaction);
-        return "redirect:/budgets/" + transaction.getBudget().getId();
+        return "redirect:/budgets/"+transaction.getBudget().getId();
     }
 
 }
+

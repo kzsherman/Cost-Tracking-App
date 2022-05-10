@@ -1,12 +1,10 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <title>Your Budgets</title>
-    <script th:include="fragments/header :: headerScripts" th:remove="tag">
-    </script>
-<!--    <link rel="stylesheet" href="/css/font-awesome.min.css"/>-->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
     <script type="text/javascript">
         $(function () {
             $("#addBudget").click(function () {
@@ -44,3 +42,4 @@
 </div>
 </body>
 </html>
+
