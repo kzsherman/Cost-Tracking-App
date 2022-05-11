@@ -10,22 +10,23 @@ import vip.almaty.costtrackingapp.domain.User;
 import vip.almaty.costtrackingapp.service.BudgetService;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.*;
 
 
 @Controller
 @RequestMapping("/budgets")
-public class BudgetController {
-
+public class BudgetController
+{
     @Autowired
     private BudgetService budgetService;
-
 
     @RequestMapping(value="", method=RequestMethod.GET)
     public String getBudgets(@AuthenticationPrincipal User user, ModelMap model)
     {
-        populateUserBudgetsOnModel(user, model);
         // this should fetch budgets from the database for the logged in user
+        populateUserBudgetsOnModel(user, model);
+
         return "budgets";
     }
 
@@ -43,40 +44,11 @@ public class BudgetController {
         return "budget";
     }
 
-    private void populateUserBudgetsOnModel(User user, ModelMap model) {
+    private void populateUserBudgetsOnModel(User user, ModelMap model)
+    {
         TreeSet<Budget> budgets = budgetService.getBudgets(user);
 
         model.put("budgets", budgets);
-    }
-
-    @RequestMapping (value = "", method = RequestMethod.POST)
-    public @ResponseBody Budget postBudget(@AuthenticationPrincipal User user, ModelMap model){
-
-        Budget budget = new Budget();
-
-        Calendar cal = Calendar.getInstance();
-
-        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1, 0,0,0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        Date firstOfMonth = cal.getTime();
-
-        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
-        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
-        cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
-        cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
-        cal.set(Calendar.MILLISECOND, 0);
-
-        Date lastOfMonth = cal.getTime();
-
-        budget.setStartDate(firstOfMonth);
-        budget.setEndDate(lastOfMonth);
-        budget = budgetService.saveBudget(user, budget);
-
-        budgetService.saveBudget(user, budget);
-
-        populateUserBudgetsOnModel(user, model);
-        return budget;
     }
 
     @PutMapping("{budgetId}")
@@ -89,5 +61,23 @@ public class BudgetController {
         budget.setEndDate(budgetService.convertStringToDate(endDate));
 
         budgetService.saveBudget(user, budget);
+    }
+
+
+    @PostMapping("")
+    public @ResponseBody Budget postBudget(@AuthenticationPrincipal User user, ModelMap model)
+    {
+        Budget budget = new Budget();
+
+        LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate lastOfMonth = LocalDate.now().withDayOfMonth(firstOfMonth.lengthOfMonth());
+
+        budget.setStartDate(firstOfMonth);
+        budget.setEndDate(lastOfMonth);
+        budget = budgetService.saveBudget(user, budget);
+
+        populateUserBudgetsOnModel(user, model);
+
+        return budget;
     }
 }

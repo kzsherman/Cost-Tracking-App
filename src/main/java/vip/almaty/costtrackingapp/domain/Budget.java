@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.core.annotation.Order;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.persistence.*;
@@ -17,8 +18,8 @@ public class Budget implements Comparable<Budget>
     private Long id;
     private String name;
     private Set<User> users = new HashSet<>();
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private SortedSet<Group> groups = new TreeSet<>();
     private Set<Transaction> transactions = new HashSet<>();
 
@@ -62,19 +63,19 @@ public class Budget implements Comparable<Budget>
     {
         this.groups = groups;
     }
-    public Date getStartDate()
+    public LocalDate getStartDate()
     {
         return startDate;
     }
-    public void setStartDate(Date startDate)
+    public void setStartDate(LocalDate startDate)
     {
         this.startDate = startDate;
     }
-    public Date getEndDate()
+    public LocalDate getEndDate()
     {
         return endDate;
     }
-    public void setEndDate(Date endDate)
+    public void setEndDate(LocalDate endDate)
     {
         this.endDate = endDate;
     }

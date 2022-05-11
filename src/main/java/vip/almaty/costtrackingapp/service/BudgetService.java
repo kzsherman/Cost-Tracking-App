@@ -11,6 +11,8 @@ import vip.almaty.costtrackingapp.repositories.BudgetRepository;
 
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -58,8 +60,8 @@ public class BudgetService {
         return budget;
     }
 
-    public Date convertStringToDate(String date) throws ParseException
+    public LocalDate convertStringToDate(String date) throws ParseException
     {
-        return DateUtils.parseDate(date, "yyyy-MM-dd");
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 }
