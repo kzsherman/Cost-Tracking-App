@@ -51,7 +51,9 @@ public class Category
     {
         this.group = group;
     }
+
     @OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY, mappedBy="category")
+    @OrderBy("date DESC")
     public Set<Transaction> getTransactions()
     {
         return transactions;
